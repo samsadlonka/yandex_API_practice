@@ -1,3 +1,5 @@
+import sys
+
 import requests
 
 
@@ -54,4 +56,18 @@ def get_ll_span(address):
     # Собираем размеры в параметр span
     span = "{dx},{dy}".format(**locals())
 
-    return (ll, span)
+    return ll, span
+
+
+def get_map(params):
+    way = "http://static-maps.yandex.ru/1.x/"
+    string_params = {'ll': ','.join(map(str, params['ll'])), 'spn': ','.join(map(str, params['spn'])), 'l': 'map'}
+    response = requests.get(way, params=string_params)
+
+    if not response:
+        print("Ошибка выполнения запроса:")
+        print(way, params)
+        print("Http статус:", response.status_code, "(", response.reason, ")")
+        sys.exit(1)
+    else:
+        return response.content
