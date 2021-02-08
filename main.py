@@ -12,8 +12,6 @@ SCREEN_SIZE = [600, 450]
 
 
 class MyWidget(QMainWindow):
-
-
     def __init__(self):
         self.ll = [37.530887, 55.703118]
         self.spn = [0.002, 0.002]
@@ -37,6 +35,25 @@ class MyWidget(QMainWindow):
             self.spn[1] /= 2
             self.spn[0] = max(self.spn[0], self.spn_limits[0])
             self.spn[1] = max(self.spn[1], self.spn_limits[0])
+        if event.key() == Qt.Key_Up and -180 < self.ll[1] + self.spn[0] < 90:
+            self.ll[1] += self.spn[0]
+        if event.key() == Qt.Key_Down and -90 < self.ll[1] - self.spn[0] < 90:
+            self.ll[1] -= self.spn[0]
+        if event.key() == Qt.Key_Right:
+            if -180 + self.spn[1] < self.ll[0]< 180 - self.spn[1]:
+                self.ll[0] += self.spn[1]
+                print(self.ll)
+            else:
+                self.ll[0] = -180 + self.spn[1]
+                print(self.ll)
+                print(1)
+        if event.key() == Qt.Key_Left:
+            if -180 + self.spn[1]< self.ll[0] < 180 - self.spn[1]:
+                self.ll[0] -= self.spn[1]
+                print(self.ll)
+            else:
+                self.ll[0] = 180 - self.spn[1]
+                print(self.ll)
         self.update_map()
 
     def update_map(self):
