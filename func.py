@@ -4,19 +4,20 @@ import requests
 
 
 # Получение первого топонима из ответа геокодера.
-def geocode(address):
-    geocoder_api_server = "http://geocode-maps.yandex.ru/1.x/"
+def geocoder(params: dict):
+    url = "http://geocode-maps.yandex.ru/1.x/"
 
     geocoder_params = {
         "apikey": "40d1649f-0493-4b70-98ba-98533de7710b",
-        "geocode": address,
         "format": "json"}
 
-    response = requests.get(geocoder_api_server, params=geocoder_params)
+    for k, v in params.items():
+        geocoder_params[k] = v
+
+    response = requests.get(url, params=geocoder_params)
 
     if not response:
-        # обработка ошибочной ситуации
-        pass
+        return response.reason
 
     # Преобразуем ответ в json-объект
     json_response = response.json()
@@ -26,14 +27,7 @@ def geocode(address):
     return toponym
 
 
-# Получаем координаты объекта по его адресу.
-
-# Получаем параметры объекта для рисования карты вокруг него.
-def get_ll_span(address):
-    toponym = geocode(address)
-    if not toponym:
-        return (None, None)
-
+def get_toponym_ll_and_span(toponym):
     # Координаты центра топонима:
     toponym_coodrinates = toponym["Point"]["pos"]
     # Долгота и Широта :
@@ -59,15 +53,13 @@ def get_ll_span(address):
     return ll, span
 
 
-def get_map(params):
-    way = "http://static-maps.yandex.ru/1.x/"
-    string_params = {'ll': ','.join(map(str, params['ll'])), 'spn': ','.join(map(str, params['spn'])), 'l': 'map'}
-    response = requests.get(way, params=string_params)
-
-    if not response:
-        print("Ошибка выполнения запроса:")
-        print(way, params)
-        print("Http статус:", response.status_code, "(", response.reason, ")")
-        sys.exit(1)
-    else:
-        return response.content
+def get_image(ll, spn):
+    params = {
+        "ll": ll,
+        "l": 'map',
+        'spn': spn,
+        'size': '450,450'
+    }
+    url = "http://static-maps.yandex.ru/1.x/"
+    response = requests.get(url, params=params)
+    return response

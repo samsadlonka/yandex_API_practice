@@ -35,6 +35,7 @@ while running:
                 params['spn'][1] *= 2
                 params['spn'][0] = min(params['spn'][0], spn_limits[1])
                 params['spn'][1] = min(params['spn'][1], spn_limits[1])
+
             with open(map_file, 'wb') as file:
                 file.write(get_map(params))
 
