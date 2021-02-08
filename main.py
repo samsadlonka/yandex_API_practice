@@ -8,6 +8,7 @@ import requests
 params = {'ll': [37.530887, 55.703118], 'spn': [0.002, 0.002], 'l': 'map'}
 # Запишем полученное изображение в файл.
 spn_limits = [0.00001, 90]
+ll_limits = [-180, 180]
 
 
 response = get_map(params)
@@ -35,7 +36,6 @@ while running:
                 params['spn'][1] *= 2
                 params['spn'][0] = min(params['spn'][0], spn_limits[1])
                 params['spn'][1] = min(params['spn'][1], spn_limits[1])
-
             with open(map_file, 'wb') as file:
                 file.write(get_map(params))
 
