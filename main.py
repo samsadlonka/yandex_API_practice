@@ -19,10 +19,17 @@ class MyWidget(QMainWindow):
         self.ll_limits = [-180, 180]
         super().__init__()
         uic.loadUi('design.ui', self)
-        self.map = get_image(self.ll, self.spn)
+        self.comboBox.currentTextChanged.connect(self.change_type_map)
+        self.type_map = self.comboBox.currentText()
+        self.map = get_image(self.ll, self.spn, self.type_map)
         self.pixmap = QPixmap()
         self.pixmap.loadFromData(self.map)
         self.label.setPixmap(self.pixmap)
+
+    def change_type_map(self):
+        self.type_map = self.comboBox.currentText()
+        print(self.type_map)
+        self.update_map()
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_PageDown:
@@ -42,22 +49,17 @@ class MyWidget(QMainWindow):
         if event.key() == Qt.Key_Right:
             if -180 + self.spn[1] < self.ll[0]< 180 - self.spn[1]:
                 self.ll[0] += self.spn[1]
-                print(self.ll)
             else:
                 self.ll[0] = -180 + self.spn[1]
-                print(self.ll)
-                print(1)
         if event.key() == Qt.Key_Left:
             if -180 + self.spn[1]< self.ll[0] < 180 - self.spn[1]:
                 self.ll[0] -= self.spn[1]
-                print(self.ll)
             else:
                 self.ll[0] = 180 - self.spn[1]
-                print(self.ll)
         self.update_map()
 
     def update_map(self):
-        self.map = get_image(self.ll, self.spn)
+        self.map = get_image(self.ll, self.spn, self.type_map)
         self.pixmap.loadFromData(self.map)
         self.label.setPixmap(self.pixmap)
 

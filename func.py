@@ -53,12 +53,12 @@ def get_toponym_ll_and_span(toponym):
     return ll, span
 
 
-def get_image(ll, spn):
+def get_image(ll, spn, my_map):
     ll = ','.join(list(map(str, ll)))
     spn = ','.join(list(map(str, spn)))
     params = {
         "ll": ll,
-        "l": 'map',
+        "l": my_map,
         'spn': spn,
         'size': '450,450'
     }
