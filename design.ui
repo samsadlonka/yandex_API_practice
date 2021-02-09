@@ -19,13 +19,38 @@
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>771</width>
+      <width>541</width>
       <height>551</height>
      </rect>
     </property>
     <property name="text">
      <string>Label</string>
     </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>460</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>map</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>sat</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>skl</string>
+     </property>
+    </item>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
