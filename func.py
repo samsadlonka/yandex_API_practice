@@ -53,15 +53,17 @@ def get_toponym_ll_and_span(toponym):
     return ll, span
 
 
-def get_image(ll, spn, my_map):
+def get_image(ll, spn, my_map, marks):
     ll = ','.join(list(map(str, ll)))
     spn = ','.join(list(map(str, spn)))
     params = {
         "ll": ll,
         "l": my_map,
         'spn': spn,
-        'size': '450,450'
+        'size': '450,450',
+        'pt': '~'.join([','.join(map(str, mark)) for mark in marks])
     }
+
     url = "http://static-maps.yandex.ru/1.x/"
     response = requests.get(url, params=params)
     return response.content
