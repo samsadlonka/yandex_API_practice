@@ -36,6 +36,12 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="insertPolicy">
+     <enum>QComboBox::InsertAtBottom</enum>
+    </property>
     <item>
      <property name="text">
       <string>map</string>
@@ -59,7 +65,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

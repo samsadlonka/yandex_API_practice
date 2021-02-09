@@ -31,38 +31,34 @@ class MyWidget(QMainWindow):
 
     def change_type_map(self):
         self.type_map = self.comboBox.currentText()
-        print(self.type_map)
         self.update_map()
 
     def keyPressEvent(self, event):
-        if event.key() == Qt.Key_PageDown:
+        if event.key() == Qt.Key_PageDown or event.key() == Qt.Key_Minus:
             if self.spn[0] * 2 < spn_limits[1] and self.spn[1] * 2 < spn_limits[1]:
                 self.spn[0] *= 2
                 self.spn[1] *= 2
 
-        if event.key() == Qt.Key_PageUp:
+        if event.key() == Qt.Key_PageUp or event.key() == Qt.Key_Plus:
             if self.spn[0] / 2 > spn_limits[0] and self.spn[1] / 2 > spn_limits[0]:
                 self.spn[0] /= 2
                 self.spn[1] /= 2
 
-            self.spn[0] /= 2
-            self.spn[1] /= 2
-            self.spn[0] = max(self.spn[0], self.spn_limits[0])
-            self.spn[1] = max(self.spn[1], self.spn_limits[0])
         if event.key() == Qt.Key_Up and -180 < self.ll[1] + self.spn[0] < 90:
             self.ll[1] += self.spn[0]
         if event.key() == Qt.Key_Down and -90 < self.ll[1] - self.spn[0] < 90:
             self.ll[1] -= self.spn[0]
         if event.key() == Qt.Key_Right:
-            if -180 + self.spn[1] < self.ll[0]< 180 - self.spn[1]:
+            if -180 + self.spn[1] < self.ll[0] < 180 - self.spn[1]:
                 self.ll[0] += self.spn[1]
             else:
                 self.ll[0] = -180 + self.spn[1]
         if event.key() == Qt.Key_Left:
-            if -180 + self.spn[1]< self.ll[0] < 180 - self.spn[1]:
+            if -180 + self.spn[1] < self.ll[0] < 180 - self.spn[1]:
                 self.ll[0] -= self.spn[1]
             else:
                 self.ll[0] = 180 - self.spn[1]
+
         self.update_map()
 
     def update_map(self):
