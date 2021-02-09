@@ -9,40 +9,41 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
 SCREEN_SIZE = [600, 450]
+spn_limits = [0.00001, 90]
+ll_limits = [-180, 180]
 
 
 class MyWidget(QMainWindow):
-
-
     def __init__(self):
+        super().__init__()
+
         self.ll = [37.530887, 55.703118]
         self.spn = [0.002, 0.002]
-        self.spn_limits = [0.00001, 90]
-        self.ll_limits = [-180, 180]
-        super().__init__()
+
         uic.loadUi('design.ui', self)
-        self.map = get_image(self.ll, self.spn)
         self.pixmap = QPixmap()
-        self.pixmap.loadFromData(self.map)
-        self.label.setPixmap(self.pixmap)
+        self.map = None
+
+        self.update_map()
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_PageDown:
-            self.spn[0] *= 2
-            self.spn[1] *= 2
-            self.spn[0] = min(self.spn[0], self.spn_limits[1])
-            self.spn[1] = min(self.spn[1], self.spn_limits[1])
+            if self.spn[0] * 2 < spn_limits[1] and self.spn[1] * 2 < spn_limits[1]:
+                self.spn[0] *= 2
+                self.spn[1] *= 2
+
         if event.key() == Qt.Key_PageUp:
-            self.spn[0] /= 2
-            self.spn[1] /= 2
-            self.spn[0] = max(self.spn[0], self.spn_limits[0])
-            self.spn[1] = max(self.spn[1], self.spn_limits[0])
+            if self.spn[0] / 2 > spn_limits[0] and self.spn[1] / 2 > spn_limits[0]:
+                self.spn[0] /= 2
+                self.spn[1] /= 2
+
         self.update_map()
 
     def update_map(self):
         self.map = get_image(self.ll, self.spn)
         self.pixmap.loadFromData(self.map)
         self.label.setPixmap(self.pixmap)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
