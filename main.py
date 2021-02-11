@@ -28,6 +28,7 @@ class MyWidget(QMainWindow):
 
         self.comboBox.currentTextChanged.connect(self.change_type_map)
         self.pushButton.clicked.connect(self.change_ll)
+        self.pushButton_2.clicked.connect(self.clean_last_pt)
 
         self.update_map()
 
@@ -41,6 +42,11 @@ class MyWidget(QMainWindow):
 
         self.ll = list(map(float, top['Point']['pos'].split()))
         self.marks.append(self.ll[:])
+        self.update_map()
+
+    def clean_last_pt(self):
+        if self.marks:
+            self.marks.pop()
         self.update_map()
 
     def keyPressEvent(self, event):

@@ -33,7 +33,7 @@
       <item>
        <widget class="QLineEdit" name="lineEdit">
         <property name="focusPolicy">
-         <enum>Qt::NoFocus</enum>
+         <enum>Qt::ClickFocus</enum>
         </property>
         <property name="text">
          <string>Калуга</string>
@@ -46,7 +46,17 @@
          <enum>Qt::NoFocus</enum>
         </property>
         <property name="text">
-         <string>Search</string>
+         <string>Поиск</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="text">
+         <string>Сброс поискового результата</string>
         </property>
        </widget>
       </item>
