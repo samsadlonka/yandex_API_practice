@@ -20,6 +20,7 @@ class MyWidget(QMainWindow):
         self.ll = [37.530887, 55.703118]
         self.spn = [0.002, 0.002]
         self.info = ''
+        self.post_address = ''
 
         uic.loadUi('design.ui', self)
         self.type_map = self.comboBox.currentText()
@@ -30,6 +31,7 @@ class MyWidget(QMainWindow):
         self.comboBox.currentTextChanged.connect(self.change_type_map)
         self.pushButton.clicked.connect(self.change_ll)
         self.pushButton_2.clicked.connect(self.clean_last_pt)
+        self.checkBox.stateChanged.connect(self.change_ll)
 
         self.update_map()
 
@@ -42,7 +44,16 @@ class MyWidget(QMainWindow):
         top = geocoder({'geocode': search_text})
 
         self.info = top['metaDataProperty']['GeocoderMetaData']['text']
+
+        if 'postal_code' in top['metaDataProperty']['GeocoderMetaData']['Address'].keys():
+            self.post_address = top['metaDataProperty']['GeocoderMetaData']['Address']['postal_code']
+        else:
+            self.post_address = 'No postal code'
+
+        if self.checkBox.isChecked():
+            self.info += '\n' + 'Postal code: ' + self.post_address
         self.label_2.setText(self.info)
+
         self.ll = list(map(float, top['Point']['pos'].split()))
         self.marks.append(self.ll[:])
         self.update_map()
