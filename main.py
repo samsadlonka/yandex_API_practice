@@ -19,6 +19,7 @@ class MyWidget(QMainWindow):
 
         self.ll = [37.530887, 55.703118]
         self.spn = [0.002, 0.002]
+        self.info = ''
 
         uic.loadUi('design.ui', self)
         self.type_map = self.comboBox.currentText()
@@ -40,6 +41,8 @@ class MyWidget(QMainWindow):
         search_text = self.lineEdit.text()
         top = geocoder({'geocode': search_text})
 
+        self.info = top['metaDataProperty']['GeocoderMetaData']['text']
+        self.label_2.setText(self.info)
         self.ll = list(map(float, top['Point']['pos'].split()))
         self.marks.append(self.ll[:])
         self.update_map()
